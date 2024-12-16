@@ -1,60 +1,50 @@
-# e-commerce
+# React + TypeScript + Vite
 
-## Descrição
-Este é um projeto de e-commerce desenvolvido para fornecer uma plataforma de compras online. Ele inclui funcionalidades como navegação de produtos, carrinho de compras, checkout e gerenciamento de usuários.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Funcionalidades
-- Navegação de produtos
-- Carrinho de compras
-- Processo de checkout
-- Autenticação e gerenciamento de usuários
-- Histórico de pedidos
+Currently, two official plugins are available:
 
-## Tecnologias Utilizadas
-- Frontend: React, Redux
-- Backend: Node.js, Express
-- Banco de Dados: MongoDB
-- Autenticação: JWT (JSON Web Tokens)
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Instalação
-Para instalar e executar o projeto localmente, siga os passos abaixo:
+## Expanding the ESLint configuration
 
-1. Clone o repositório:
-    ```sh
-    git clone https://github.com/seu-usuario/e-commerce.git
-    ```
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-2. Navegue até o diretório do projeto:
-    ```sh
-    cd e-commerce
-    ```
+- Configure the top-level `parserOptions` property like this:
 
-3. Instale as dependências do backend:
-    ```sh
-    cd backend
-    npm install
-    ```
+```js
+export default tseslint.config({
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
+```
 
-4. Instale as dependências do frontend:
-    ```sh
-    cd ../frontend
-    npm install
-    ```
+- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
+- Optionally add `...tseslint.configs.stylisticTypeChecked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
-## Uso
-Para iniciar o servidor backend e o frontend, execute os seguintes comandos em terminais separados:
+```js
+// eslint.config.js
+import react from 'eslint-plugin-react'
 
-1. Inicie o servidor backend:
-    ```sh
-    cd backend
-    npm start
-    ```
-
-2. Inicie o frontend:
-    ```sh
-    cd frontend
-    npm start
-    ```
-
-## Contribuição
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull requests.
+export default tseslint.config({
+  // Set the react version
+  settings: { react: { version: '18.3' } },
+  plugins: {
+    // Add the react plugin
+    react,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended rules
+    ...react.configs.recommended.rules,
+    ...react.configs['jsx-runtime'].rules,
+  },
+})
+```
